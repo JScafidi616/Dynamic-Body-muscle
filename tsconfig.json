@@ -1,0 +1,8 @@
+{
+	"files": [],
+	"lib": ["ES2017", "DOM"],
+	"references": [
+		{ "path": "./tsconfig.app.json" },
+		{ "path": "./tsconfig.node.json" }
+	]
+}
