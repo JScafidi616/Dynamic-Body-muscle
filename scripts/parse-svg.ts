@@ -56,7 +56,6 @@ function parseSVG(svgPath: string) {
 				visible: visiblePath,
 				hit: hitPath,
 			},
-			viewBox,
 		};
 
 		if (!muscleGroups[groupName]) {
