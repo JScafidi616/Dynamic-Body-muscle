@@ -6,12 +6,14 @@ import { MuscleGroup } from './MuscleGroup';
 
 const DEFAULT_STYLES: MuscleStyles = {
 	default: {
-		fill: '#c2c2c2',
+		fill: '#DEDEDEFF',
 		opacity: 1,
 	},
 	highlighted: {
-		fill: '#ff6b6b',
-		opacity: 0.8,
+		fill: '#ff0000',
+		opacity: 0.9,
+		stroke: '#FF8787FF',
+		strokeWidth: 2,
 	},
 	selected: {
 		fill: '#4ecdc4',
@@ -39,7 +41,28 @@ export function BodyMap({
 	styles = {},
 	className = '',
 }: BodyMapProps) {
+	// ✅ Debug what's received
+	// console.log('BodyMap received:', {
+	// 	highlighted,
+	// 	selected,
+	// 	interactive,
+	// 	highlightedCount: highlighted.length,
+	// });
+
 	const [hoveredMuscle, setHoveredMuscle] = useState<MuscleId | null>(null);
+
+	// Non-interactive elements (visible but not clickable)
+	const NON_INTERACTIVE_IDS = [
+		'Body_Bg',
+		'Body_Stroke',
+		'Neck',
+		'RightHand',
+		'LeftHand',
+		'RightFeet',
+		'LeftFeet',
+		'RightKnee',
+		'LeftKnee',
+	];
 
 	// Merge custom styles with defaults
 	const mergedStyles: MuscleStyles = useMemo(
@@ -65,6 +88,9 @@ export function BodyMap({
 	}, [interactive]);
 
 	const isMuscleInteractive = (muscleId: MuscleId): boolean => {
+		// Always make certain elements non-interactive
+		if (NON_INTERACTIVE_IDS.includes(muscleId)) return false;
+
 		return interactiveSet === 'all' || interactiveSet.has(muscleId);
 	};
 
@@ -85,21 +111,27 @@ export function BodyMap({
 		>
 			{Object.entries(MUSCLE_GROUPS).map(([groupName, group]) => (
 				<MuscleGroup key={groupName} name={groupName}>
-					{group.muscles.map((muscle) => (
-						<Muscle
-							key={muscle.id}
-							id={muscle.id}
-							paths={muscle.paths}
-							isHighlighted={highlightedSet.has(muscle.id)}
-							isSelected={selectedSet.has(muscle.id)}
-							isHovered={hoveredMuscle === muscle.id}
-							isInteractive={isMuscleInteractive(muscle.id)}
-							showHitLayer={showHitLayers}
-							styles={mergedStyles}
-							onClick={handleMuscleClick}
-							onHover={handleMuscleHover}
-						/>
-					))}
+					{group.muscles.map((muscle) => {
+						const isNonInteractive = NON_INTERACTIVE_IDS.includes(muscle.id);
+
+						return (
+							<Muscle
+								key={muscle.id}
+								id={muscle.id}
+								paths={muscle.paths}
+								isHighlighted={
+									!isNonInteractive && highlightedSet.has(muscle.id)
+								}
+								isSelected={!isNonInteractive && selectedSet.has(muscle.id)}
+								isHovered={!isNonInteractive && hoveredMuscle === muscle.id}
+								isInteractive={isMuscleInteractive(muscle.id)}
+								showHitLayer={showHitLayers}
+								styles={mergedStyles}
+								onClick={handleMuscleClick}
+								onHover={handleMuscleHover}
+							/>
+						);
+					})}
 				</MuscleGroup>
 			))}
 		</svg>

@@ -18,11 +18,17 @@ export function Muscle({
 
 	// Determine which style to apply
 	const getStyle = (): MuscleStyle => {
-		if (!isInteractive) return styles.disabled || {};
 		if (isSelected) return styles.selected || {};
-		if (isHovered || isLocalHovered) return styles.hovered || {};
+		if (isInteractive && (isHovered || isLocalHovered))
+			return styles.hovered || {};
 		if (isHighlighted) return styles.highlighted || {};
 		return styles.default || {};
+
+		// if (isSelected) return styles.selected || {};
+		// if (isInteractive && (isHovered || isLocalHovered))
+		// 	return styles.hovered || {};
+		// if (isHighlighted) return styles.highlighted || {};
+		// return styles.default || {};
 	};
 
 	const style = getStyle();
@@ -54,6 +60,7 @@ export function Muscle({
 		style: {
 			cursor: isInteractive ? 'pointer' : 'default',
 			transition: 'all 0.2s ease',
+			pointerEvents: isInteractive ? 'all' : 'none',
 		},
 		onClick: handleClick,
 		onMouseEnter: handleMouseEnter,
@@ -74,7 +81,7 @@ export function Muscle({
 					opacity={showHitLayer ? 0.2 : 0}
 					style={{
 						cursor: isInteractive ? 'pointer' : 'default',
-						pointerEvents: 'all',
+						pointerEvents: isInteractive ? 'all' : 'none', // ✅ Also disable here
 					}}
 					onClick={handleClick}
 					onMouseEnter={handleMouseEnter}
