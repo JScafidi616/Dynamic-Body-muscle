@@ -45,7 +45,7 @@ function parseSVG(svgPath: string) {
 		const hitPath = hasHitLayer ? hitElement.attr('d') || '' : undefined;
 
 		// Get fill color
-		const fill = $(element).attr('fill') || '#c2c2c2';
+		//const fill = $(element).attr('fill') || '#c2c2c2';
 
 		const muscleData: MuscleData = {
 			id,
@@ -110,7 +110,7 @@ export interface MuscleGroup {
 			key,
 			{
 				...group,
-				muscles: group.muscles.map(({ viewBox, ...muscle }) => muscle),
+				muscles: group.muscles.map(({ ...muscle }) => muscle),
 			},
 		]),
 	);
