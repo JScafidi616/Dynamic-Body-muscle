@@ -81,7 +81,7 @@ export function BodyMap({
 		<svg
 			viewBox={VIEWBOX}
 			className={`body-map ${className}`}
-			style={{ width: '100%', height: 'auto' }}
+			style={{ width: '100%', height: '600px' }}
 		>
 			{Object.entries(MUSCLE_GROUPS).map(([groupName, group]) => (
 				<MuscleGroup key={groupName} name={groupName}>

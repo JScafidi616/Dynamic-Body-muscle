@@ -11,6 +11,7 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	width: 100%;
 }
 
 body {
@@ -24,6 +25,7 @@ body {
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
+	width: 100%;
 }
 
 .header {
@@ -32,6 +34,7 @@ body {
 	padding: 2rem;
 	text-align: center;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	width: auto;
 }
 
 .header h1 {
@@ -181,11 +184,13 @@ button.active {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	height: auto;
+	max-height: 677px;
 }
 
 .body-map {
 	max-width: 500px;
-	max-height: 800px;
+	max-height: 900px;
 }
 
 @media (max-width: 768px) {
