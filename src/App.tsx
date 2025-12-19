@@ -26,13 +26,20 @@ function App() {
 
 	const handleMuscleClick = (muscleId: MuscleId) => {
 		setClickedMuscle(muscleId);
-		toggleSelect(muscleId);
+
+		if (mode === 'programmatic') {
+			toggleHighlight(muscleId); // ✅ Now it's used!
+		} else {
+			toggleSelect(muscleId);
+		}
 	};
 
 	const highlightMuscleGroup = (groupName: string) => {
 		const group = MUSCLE_GROUPS[groupName];
 		if (group) {
-			highlightMuscles(group.muscles.map((m) => m.id));
+			const muscleIds = group.muscles.map((m) => m.id);
+			console.log('Highlighting group:', groupName, 'Muscles:', muscleIds); // ✅ Debug
+			highlightMuscles(muscleIds);
 		}
 	};
 
@@ -41,6 +48,11 @@ function App() {
 			<header className='header'>
 				<h1>🏋️ Dynamic Body Muscle Map</h1>
 				<p>Interactive muscle visualization library</p>
+				{/* ✅ Debug info */}
+				{/* <p style={{ fontSize: '0.8rem', opacity: 0.7 }}>
+					Mode: {mode} | Highlighted: {highlighted.length} | Selected:{' '}
+					{selected.length}
+				</p> */}
 			</header>
 
 			<div className='container'>
@@ -56,7 +68,10 @@ function App() {
 							</button>
 							<button
 								className={mode === 'programmatic' ? 'active' : ''}
-								onClick={() => setMode('programmatic')}
+								onClick={() => {
+									setMode('programmatic');
+									clearSelections(); // ✅ Clear selections when switching
+								}}
 							>
 								Programmatic
 							</button>
@@ -76,14 +91,23 @@ function App() {
 							<>
 								<h3>Highlight Groups</h3>
 								<div className='button-group vertical'>
-									{Object.keys(MUSCLE_GROUPS).map((groupName) => (
-										<button
-											key={groupName}
-											onClick={() => highlightMuscleGroup(groupName)}
-										>
-											{groupName}
-										</button>
-									))}
+									{Object.keys(MUSCLE_GROUPS)
+										.filter(
+											(name) =>
+												name !== 'Body' &&
+												name !== 'Feets' &&
+												name !== 'Hands' &&
+												name !== 'No-Muscle' &&
+												name !== 'Knees',
+										) // ✅ Don't show Body button
+										.map((groupName) => (
+											<button
+												key={groupName}
+												onClick={() => highlightMuscleGroup(groupName)}
+											>
+												{groupName}
+											</button>
+										))}
 								</div>
 
 								<h3>Actions</h3>
@@ -134,8 +158,25 @@ function App() {
 				</aside>
 
 				<main className='body-map-container'>
+					{/* ✅ Add debug logging */}
+					{/* <div
+						style={{
+							position: 'absolute',
+							top: 10,
+							left: 10,
+							background: 'white',
+							padding: '10px',
+							fontSize: '12px',
+							zIndex: 1000,
+						}}
+					>
+						<div>Highlighted: {JSON.stringify(highlighted)}</div>
+						<div>Selected: {JSON.stringify(selected)}</div>
+						<div>Interactive: {mode === 'click' ? 'true' : 'false'}</div>
+					</div> */}
 					<BodyMap
-						highlighted={mode === 'programmatic' ? highlighted : []}
+						// highlighted={mode === 'programmatic' ? highlighted : []}
+						highlighted={highlighted}
 						selected={selected}
 						interactive={mode === 'click'}
 						onMuscleClick={handleMuscleClick}
