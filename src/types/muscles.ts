@@ -3,6 +3,7 @@ export type MuscleId = 'Body_Bg' | 'Body_Stroke' | 'RightForearm' | 'RightBicep'
 
 export type MuscleGroupName = 'Body' | 'RightArm' | 'LeftArm' | 'RightLeg' | 'LeftLeg' | 'Torso' | 'Abs' | 'No-Muscle' | 'Knees' | 'Feets' | 'Hands';
 
+
 export interface MuscleData {
   id: MuscleId;
   name: string;
@@ -18,5 +19,3 @@ export interface MuscleGroup {
   name: MuscleGroupName;
   muscles: MuscleData[];
 }
-
-export const VIEWBOX = '0 0 391.97 650.97';
