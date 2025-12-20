@@ -1,5 +1,5 @@
 // src/components/Muscle.tsx
-import { useState } from 'react';
+import React, { useState } from 'react';
 import type { MuscleProps, MuscleStyle } from '../types';
 
 export function Muscle({
@@ -74,7 +74,9 @@ export function Muscle({
 		style: {
 			cursor: isInteractive ? 'pointer' : 'default',
 			transition: 'all 0.2s ease',
-			pointerEvents: isInteractive ? 'all' : 'none',
+			pointerEvents: (isInteractive
+				? 'auto'
+				: 'none') as React.CSSProperties['pointerEvents'], // Disable pointer events if not interactive
 		},
 		onClick: handleClick,
 		onMouseEnter: handleMouseEnter,
@@ -93,10 +95,12 @@ export function Muscle({
 					d={paths.hit}
 					fill='transparent'
 					opacity={showHitLayer ? 0.2 : 0}
-					style={{
-						cursor: isInteractive ? 'pointer' : 'default',
-						pointerEvents: isInteractive ? 'all' : 'none', // ✅ Also disable here
-					}}
+					style={
+						{
+							cursor: isInteractive ? 'pointer' : 'default',
+							pointerEvents: isInteractive ? 'all' : 'none', // ✅ Also disable here
+						} as React.CSSProperties
+					}
 					onClick={handleClick}
 					onMouseEnter={handleMouseEnter}
 					onMouseLeave={handleMouseLeave}
