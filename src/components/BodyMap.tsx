@@ -10,19 +10,19 @@ const DEFAULT_STYLES: MuscleStyles = {
 		opacity: 1,
 	},
 	highlighted: {
-		fill: '#ff0000',
+		fill: '#00E1FFFF',
 		opacity: 0.9,
-		stroke: '#FF8787FF',
+		stroke: '#0080FFFF',
 		strokeWidth: 2,
 	},
 	selected: {
-		fill: '#4ecdc4',
+		fill: '#FF8B8BFF',
 		opacity: 0.9,
-		stroke: '#2d9cdb',
+		stroke: '#DB2D2DFF',
 		strokeWidth: 2,
 	},
 	hovered: {
-		fill: '#95e1d3',
+		fill: '#E1A495FF',
 		opacity: 0.85,
 	},
 	disabled: {
