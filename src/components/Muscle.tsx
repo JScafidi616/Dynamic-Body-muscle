@@ -16,13 +16,27 @@ export function Muscle({
 }: MuscleProps) {
 	const [isLocalHovered, setIsLocalHovered] = useState(false);
 
+	// Elements that should always be "disabled" style (Body background, etc.)
+	const ALWAYS_DISABLED_IDS = ['Body_Bg', 'Body_Stroke', 'Neck'];
+	const shouldBeDisabledStyle = ALWAYS_DISABLED_IDS.includes(id);
+
 	// Determine which style to apply
 	const getStyle = (): MuscleStyle => {
+		// ✅ Apply disabled style ONLY to body/stroke/neck, NOT to muscles
+		if (shouldBeDisabledStyle) return styles.disabled || {};
+
+		// For actual muscles, show proper states regardless of interactivity
 		if (isSelected) return styles.selected || {};
 		if (isInteractive && (isHovered || isLocalHovered))
 			return styles.hovered || {};
 		if (isHighlighted) return styles.highlighted || {};
 		return styles.default || {};
+
+		// if (isSelected) return styles.selected || {};
+		// if (isInteractive && (isHovered || isLocalHovered))
+		// 	return styles.hovered || {};
+		// if (isHighlighted) return styles.highlighted || {};
+		// return styles.default || {};
 
 		// if (!isInteractive) return styles.disabled || {};
 		// if (isSelected) return styles.selected || {};
