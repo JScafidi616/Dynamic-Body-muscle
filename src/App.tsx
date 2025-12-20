@@ -5,13 +5,14 @@ import './App.css';
 import { BodyMap } from './components/BodyMap';
 import { useMuscleState } from './hooks/useMuscleState';
 import type { MuscleId } from './types';
-import { MUSCLE_GROUPS } from './utils/muscleData';
+import { MUSCLE_GROUPS, getPairedMuscle } from './utils/muscleData';
 
 function App() {
 	const [mode, setMode] = useState<'click' | 'programmatic'>('click');
 	const [showHitLayers, setShowHitLayers] = useState(false);
 	const [clickedMuscle, setClickedMuscle] = useState<MuscleId | null>(null);
 	const [hoveredMuscle, setHoveredMuscle] = useState<MuscleId | null>(null);
+	const [syncPairs, setSyncPairs] = useState(true); // Default ON
 
 	const {
 		highlighted,
@@ -27,18 +28,38 @@ function App() {
 	const handleMuscleClick = (muscleId: MuscleId) => {
 		setClickedMuscle(muscleId);
 
-		if (mode === 'programmatic') {
-			toggleHighlight(muscleId); // ✅ Now it's used!
-		} else {
+		if (syncPairs) {
+			const pairedMuscle = getPairedMuscle(muscleId);
+
+			// Toggle both the clicked muscle AND its pair
 			toggleSelect(muscleId);
+			if (pairedMuscle) {
+				toggleSelect(pairedMuscle as MuscleId);
+			}
+		} else {
+			// Just toggle the clicked muscle
+			if (mode === 'programmatic') {
+				toggleHighlight(muscleId); // ✅ Now it's used!
+			} else {
+				toggleSelect(muscleId);
+			}
 		}
 	};
 
 	const highlightMuscleGroup = (groupName: string) => {
 		const group = MUSCLE_GROUPS[groupName];
 		if (group) {
-			const muscleIds = group.muscles.map((m) => m.id);
-			console.log('Highlighting group:', groupName, 'Muscles:', muscleIds); // ✅ Debug
+			let muscleIds = group.muscles.map((m) => m.id);
+
+			// If sync is enabled, add paired muscles too
+			if (syncPairs) {
+				const pairedIds = muscleIds
+					.map((id) => getPairedMuscle(id))
+					.filter(Boolean) as MuscleId[];
+				muscleIds = [...muscleIds, ...pairedIds];
+			}
+
+			console.log('Highlighting group:', groupName, 'Muscles:', muscleIds);
 			highlightMuscles(muscleIds);
 		}
 	};
@@ -78,6 +99,14 @@ function App() {
 						</div>
 
 						<h3>Options</h3>
+						<label className='checkbox'>
+							<input
+								type='checkbox'
+								checked={syncPairs}
+								onChange={(e) => setSyncPairs(e.target.checked)}
+							/>
+							Sync Muscle Pairs
+						</label>
 						<label className='checkbox'>
 							<input
 								type='checkbox'
@@ -175,7 +204,7 @@ function App() {
 						<div>Interactive: {mode === 'click' ? 'true' : 'false'}</div>
 					</div> */}
 					<BodyMap
-						// highlighted={mode === 'programmatic' ? highlighted : []}
+						// highlighted={mode === 'programmatic' ? highlighted : []} // This blocks interactivity
 						highlighted={highlighted}
 						selected={selected}
 						interactive={mode === 'click'}
