@@ -17,7 +17,17 @@ export function Muscle({
 	const [isLocalHovered, setIsLocalHovered] = useState(false);
 
 	// Elements that should always be "disabled" style (Body background, etc.)
-	const ALWAYS_DISABLED_IDS = ['Body_Bg', 'Body_Stroke', 'Neck'];
+	const ALWAYS_DISABLED_IDS = [
+		'Body_Bg',
+		'Body_Stroke',
+		'Neck',
+		'RightKnee',
+		'LeftKnee',
+		'RightHand',
+		'LeftHand',
+		'RightFeet',
+		'LeftFeet',
+	];
 	const shouldBeDisabledStyle = ALWAYS_DISABLED_IDS.includes(id);
 
 	// Determine which style to apply
