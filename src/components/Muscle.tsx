@@ -24,9 +24,9 @@ export function Muscle({
 		if (isHighlighted) return styles.highlighted || {};
 		return styles.default || {};
 
+		// if (!isInteractive) return styles.disabled || {};
 		// if (isSelected) return styles.selected || {};
-		// if (isInteractive && (isHovered || isLocalHovered))
-		// 	return styles.hovered || {};
+		// if (isHovered || isLocalHovered) return styles.hovered || {};
 		// if (isHighlighted) return styles.highlighted || {};
 		// return styles.default || {};
 	};
