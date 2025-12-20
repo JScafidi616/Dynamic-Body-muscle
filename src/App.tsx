@@ -83,7 +83,10 @@ function App() {
 						<div className='button-group'>
 							<button
 								className={mode === 'click' ? 'active' : ''}
-								onClick={() => setMode('click')}
+								onClick={() => {
+									setMode('click');
+									reset(); // reset programmatic selections when switching
+								}}
 							>
 								Click Mode
 							</button>
@@ -91,7 +94,7 @@ function App() {
 								className={mode === 'programmatic' ? 'active' : ''}
 								onClick={() => {
 									setMode('programmatic');
-									clearSelections(); // ✅ Clear selections when switching
+									clearSelections(); // Clear click-mode selections when switching
 								}}
 							>
 								Programmatic
@@ -132,7 +135,10 @@ function App() {
 										.map((groupName) => (
 											<button
 												key={groupName}
-												onClick={() => highlightMuscleGroup(groupName)}
+												onClick={() => {
+													highlightMuscleGroup(groupName);
+													console.log('Clicked group:', groupName);
+												}}
 											>
 												{groupName}
 											</button>
