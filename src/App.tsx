@@ -25,6 +25,19 @@ function App() {
 		reset,
 	} = useMuscleState();
 
+	// Non-interactive elements (body parts that aren't muscles)
+	const NON_INTERACTIVE_IDS = [
+		'Body_Bg',
+		'Body_Stroke',
+		'Neck',
+		'RightKnee',
+		'LeftKnee',
+		'RightHand',
+		'LeftHand',
+		'RightFeet',
+		'LeftFeet',
+	];
+
 	const handleMuscleClick = (muscleId: MuscleId) => {
 		setClickedMuscle(muscleId);
 
@@ -46,21 +59,63 @@ function App() {
 		}
 	};
 
-	const highlightMuscleGroup = (groupName: string) => {
-		const group = MUSCLE_GROUPS[groupName];
-		if (group) {
-			let muscleIds = group.muscles.map((m) => m.id);
+	//Commented by now, but might be useful later
+	// const highlightMuscleGroup = (groupName: string) => {
+	// 	const group = MUSCLE_GROUPS[groupName];
+	// 	if (group) {
+	// 		let muscleIds = group.muscles.map((m) => m.id);
 
-			// If sync is enabled, add paired muscles too
+	// 		// If sync is enabled, add paired muscles too
+	// 		if (syncPairs) {
+	// 			const pairedIds = muscleIds
+	// 				.map((id) => getPairedMuscle(id))
+	// 				.filter(Boolean) as MuscleId[];
+	// 			muscleIds = [...muscleIds, ...pairedIds];
+	// 		}
+
+	// 		console.log('Highlighting group:', groupName, 'Muscles:', muscleIds);
+	// 		highlightMuscles(muscleIds);
+	// 	}
+	// };
+
+	const highlightIndividualMuscle = (muscleId: MuscleId) => {
+		// Check if muscle is already highlighted
+		const isHighlighted = highlighted.includes(muscleId);
+
+		if (isHighlighted) {
+			// ✅ If highlighted, remove it (and its pair if sync is on)
+			const musclesToRemove = [muscleId];
+
 			if (syncPairs) {
-				const pairedIds = muscleIds
-					.map((id) => getPairedMuscle(id))
-					.filter(Boolean) as MuscleId[];
-				muscleIds = [...muscleIds, ...pairedIds];
+				const pairedMuscle = getPairedMuscle(muscleId);
+				if (pairedMuscle) {
+					musclesToRemove.push(pairedMuscle as MuscleId);
+				}
 			}
 
-			console.log('Highlighting group:', groupName, 'Muscles:', muscleIds);
-			highlightMuscles(muscleIds);
+			// Remove from highlighted array
+			const newHighlighted = highlighted.filter(
+				(id) => !musclesToRemove.includes(id),
+			);
+			highlightMuscles(newHighlighted);
+
+			console.log('Removing muscles:', musclesToRemove);
+		} else {
+			// ✅ If not highlighted, add it (and its pair if sync is on)
+			const musclesToAdd = [muscleId];
+
+			if (syncPairs) {
+				const pairedMuscle = getPairedMuscle(muscleId);
+				if (pairedMuscle) {
+					musclesToAdd.push(pairedMuscle as MuscleId);
+				}
+			}
+
+			// Add to existing highlighted array
+			const newHighlighted = [...highlighted, ...musclesToAdd];
+			highlightMuscles(newHighlighted);
+
+			console.log('Adding muscles:', musclesToAdd);
 		}
 	};
 
@@ -123,24 +178,21 @@ function App() {
 							<>
 								<h3>Highlight Groups</h3>
 								<div className='button-group vertical'>
-									{Object.keys(MUSCLE_GROUPS)
+									{Object.values(MUSCLE_GROUPS)
+										.filter((group) => group.name !== 'Body') // ✅ Filter out Body group
+										.flatMap((group) => group.muscles) // ✅ Get all muscles from all groups
 										.filter(
-											(name) =>
-												name !== 'Body' &&
-												name !== 'Feets' &&
-												name !== 'Hands' &&
-												name !== 'No-Muscle' &&
-												name !== 'Knees',
-										) // ✅ Don't show Body button
-										.map((groupName) => (
+											(muscle) => !NON_INTERACTIVE_IDS.includes(muscle.id),
+										) // ✅ Filter out non-muscles
+										.map((muscle) => (
 											<button
-												key={groupName}
-												onClick={() => {
-													highlightMuscleGroup(groupName);
-													console.log('Clicked group:', groupName);
-												}}
+												key={muscle.id}
+												onClick={() => highlightIndividualMuscle(muscle.id)}
+												className={
+													highlighted.includes(muscle.id) ? 'active' : ''
+												}
 											>
-												{groupName}
+												{muscle.name}
 											</button>
 										))}
 								</div>
