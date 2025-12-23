@@ -71,6 +71,37 @@ function parseSVG(svgPath: string) {
 	return { muscleGroups, viewBox };
 }
 
+// Generate muscle pairs automatically
+function generateMusclePairs(
+	muscleGroups: Record<string, MuscleGroup>,
+): Record<string, string> {
+	const pairs: Record<string, string> = {};
+	const allMuscles = Object.values(muscleGroups).flatMap(
+		(group) => group.muscles,
+	);
+
+	allMuscles.forEach((muscle) => {
+		const id = muscle.id;
+
+		// Check if it starts with Left or Right
+		if (id.startsWith('Left')) {
+			const rightVersion = id.replace('Left', 'Right');
+			// Check if the right version exists
+			if (allMuscles.some((m) => m.id === rightVersion)) {
+				pairs[id] = rightVersion;
+			}
+		} else if (id.startsWith('Right')) {
+			const leftVersion = id.replace('Right', 'Left');
+			// Check if the left version exists
+			if (allMuscles.some((m) => m.id === leftVersion)) {
+				pairs[id] = leftVersion;
+			}
+		}
+	});
+
+	return pairs;
+}
+
 function generateTypeScript(
 	muscleGroups: Record<string, MuscleGroup>,
 	viewBox: string,
@@ -114,6 +145,9 @@ export interface MuscleGroup {
 		]),
 	);
 
+	// Generate muscle pairs
+	const musclePairs = generateMusclePairs(muscleGroups);
+
 	const data = `// Auto-generated from SVG
 import type { MuscleGroup } from '../types/muscles';
 
@@ -132,6 +166,17 @@ export const getMuscleById = (id: string) =>
 
 export const getMusclesByGroup = (groupName: string) =>
   MUSCLE_GROUPS[groupName]?.muscles || [];
+
+// Auto-generated muscle pairs (Left <-> Right)
+export const MUSCLE_PAIRS: Record<string, string> = ${JSON.stringify(
+		musclePairs,
+		null,
+		2,
+	)};
+
+export const getPairedMuscle = (muscleId: string): string | undefined => {
+  return MUSCLE_PAIRS[muscleId];
+};
 `;
 
 	return { types, data };
@@ -156,10 +201,13 @@ const muscleCount = Object.values(muscleGroups).reduce(
 	(sum, group) => sum + group.muscles.length,
 	0,
 );
+const pairCount = Object.keys(generateMusclePairs(muscleGroups)).length / 2; // Divide by 2 since each pair is counted twice
+
 console.log(
 	`✅ Done! Generated ${muscleCount} muscles in ${
 		Object.keys(muscleGroups).length
 	} groups`,
 );
+console.log(`   - Muscle pairs: ${pairCount} pairs found`);
 console.log(`   - Types: ${typesPath}`);
 console.log(`   - Data: ${dataPath}`);
