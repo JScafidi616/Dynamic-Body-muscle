@@ -5,7 +5,11 @@ import './App.css';
 import { BodyMap } from './components/BodyMap';
 import { useMuscleState } from './hooks/useMuscleState';
 import type { MuscleId } from './types';
-import { MUSCLE_GROUPS, getPairedMuscle } from './utils/muscleData';
+import {
+	getPairedMuscle,
+	MUSCLE_GROUPS,
+	MUSCLE_PAIRS,
+} from './utils/muscleData';
 
 function App() {
 	const [mode, setMode] = useState<'click' | 'programmatic'>('click');
@@ -275,6 +279,7 @@ function App() {
 						<h3>Library Stats</h3>
 						<ul>
 							<li>Groups: {Object.keys(MUSCLE_GROUPS).length}</li>
+							<li>Muscle Pairs: {Object.keys(MUSCLE_PAIRS).length / 2}</li>
 							<li>
 								Total Muscles:{' '}
 								{Object.values(MUSCLE_GROUPS).reduce(
