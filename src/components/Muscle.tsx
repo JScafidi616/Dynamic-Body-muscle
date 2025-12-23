@@ -76,11 +76,13 @@ export function Muscle({
 		onHover?.(null);
 	};
 
-	const pathProps = {
+	const pathProps: React.SVGProps<SVGPathElement> = {
 		fill: style.fill || '#c2c2c2',
 		opacity: style.opacity ?? 1,
 		stroke: style.stroke,
 		strokeWidth: style.strokeWidth,
+		strokeLinejoin: style.strokeLinejoin,
+		strokeLinecap: style.strokeLinecap,
 		style: {
 			cursor: isInteractive ? 'pointer' : 'default',
 			transition: 'all 0.2s ease',

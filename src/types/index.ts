@@ -1,4 +1,5 @@
 // src/types/index.ts
+import type { SVGAttributes } from 'react';
 import type { MuscleId } from './muscles';
 
 export * from './muscles';
@@ -14,6 +15,8 @@ export interface MuscleStyle {
 	opacity?: number;
 	stroke?: string;
 	strokeWidth?: number;
+	strokeLinejoin?: SVGAttributes<SVGElement>['strokeLinejoin']; // added
+	strokeLinecap?: SVGAttributes<SVGElement>['strokeLinecap']; // added
 }
 
 export interface MuscleStyles {
