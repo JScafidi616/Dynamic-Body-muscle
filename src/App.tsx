@@ -161,7 +161,52 @@ function App() {
 							<input
 								type='checkbox'
 								checked={syncPairs}
-								onChange={(e) => setSyncPairs(e.target.checked)}
+								onChange={(e) => {
+									const newSyncValue = e.target.checked;
+									setSyncPairs(newSyncValue);
+
+									// ✅ If turning sync ON, automatically sync currently selected muscles
+									if (newSyncValue && mode === 'click') {
+										const currentlySelected = [...selected];
+										const musclesToAdd: MuscleId[] = [];
+
+										currentlySelected.forEach((muscleId) => {
+											const pairedMuscle = getPairedMuscle(muscleId);
+											if (
+												pairedMuscle &&
+												!currentlySelected.includes(pairedMuscle as MuscleId)
+											) {
+												musclesToAdd.push(pairedMuscle as MuscleId);
+											}
+										});
+
+										// Add the missing pairs
+										musclesToAdd.forEach((muscleId) => toggleSelect(muscleId));
+									}
+
+									// ✅ Same for programmatic mode
+									if (newSyncValue && mode === 'programmatic') {
+										const currentlyHighlighted = [...highlighted];
+										const musclesToAdd: MuscleId[] = [];
+
+										currentlyHighlighted.forEach((muscleId) => {
+											const pairedMuscle = getPairedMuscle(muscleId);
+											if (
+												pairedMuscle &&
+												!currentlyHighlighted.includes(pairedMuscle as MuscleId)
+											) {
+												musclesToAdd.push(pairedMuscle as MuscleId);
+											}
+										});
+
+										if (musclesToAdd.length > 0) {
+											highlightMuscles([
+												...currentlyHighlighted,
+												...musclesToAdd,
+											]);
+										}
+									}
+								}}
 							/>
 							Sync Muscle Pairs
 						</label>
