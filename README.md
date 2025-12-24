@@ -2,6 +2,9 @@
 
 An interactive, lightweight React component library for visualizing and selecting body muscles. Perfect for fitness apps, workout planners, physiotherapy tools, and anatomy education.
 
+![Demo_click](./screenshots/demo1.gif)
+![Demo_programmatic](./screenshots/demo2.gif)
+
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-19.2.3-61dafb)](https://reactjs.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
@@ -18,11 +21,6 @@ An interactive, lightweight React component library for visualizing and selectin
 - ♿ **Accessible**: Proper hover states and keyboard support
 
 ---
-
-## Demo
-
-![Demo_click](./screenshots/demo1.gif)
-![Demo_programmatic](./screenshots/demo2.gif)
 
 ---
 
