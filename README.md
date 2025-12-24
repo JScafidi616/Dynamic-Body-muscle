@@ -361,16 +361,15 @@ sequenceDiagram
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Default
-    Default --> Highlighted: highlightMuscles()
-    Default --> Selected: toggleSelect()
+    [*] --> Idle
+    Idle --> Highlighted: highlightMuscles()
+    Idle --> Selected: toggleSelect()
     Highlighted --> Selected: toggleSelect()
     Selected --> Highlighted: clearSelections()
-    Highlighted --> Default: clearHighlights()
-    Selected --> Default: clearSelections()
-
-    Default --> Hovered: Mouse Enter
-    Hovered --> Default: Mouse Leave
+    Highlighted --> Idle: clearHighlights()
+    Selected --> Idle: clearSelections()
+    Idle --> Hovered: Mouse Enter
+    Hovered --> Idle: Mouse Leave
 ```
 
 ---
@@ -443,13 +442,12 @@ Example:
 - [ ] Export/Import muscle selections
 - [ ] Touch gestures for mobile
 - [ ] Accessibility improvements (ARIA labels)
-- [ ] Multiple language support
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details. //Still pending at the moment...
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
@@ -461,7 +459,7 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 
 ## 📄 License
 
-MIT © [Your Name]
+MIT © Joseph Scafidi
 
 ---
 
@@ -475,9 +473,9 @@ MIT © [Your Name]
 
 ## 📬 Support
 
-- 🐛 [Report a Bug](https://github.com/yourusername/dynamic-body-muscle-map/issues)
-- 💡 [Request a Feature](https://github.com/yourusername/dynamic-body-muscle-map/issues)
-- 📧 Email: your.email@example.com
+- 🐛 [Report a Bug](https://github.com/JScafidi616/Dynamic-Body-muscle/issues)
+- 💡 [Request a Feature](https://github.com/JScafidi616/Dynamic-Body-muscle/issues)
+- 📧 Email: jscafidi616@hotmail.com
 
 ---
 
