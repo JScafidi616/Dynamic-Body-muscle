@@ -336,7 +336,7 @@ graph TD
 
     style A fill:#4ecdc4
     style F fill:#ff6b6b
-    style H fill:#95e1d3
+    style H fill:#1E5474FF
 ```
 
 ### Data Flow
