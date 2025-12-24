@@ -1,9 +1,9 @@
-# 🏋️ Dynamic Body Muscle Map
+# 🏋️ Dynamic Body Muscle
 
 An interactive, lightweight React component library for visualizing and selecting body muscles. Perfect for fitness apps, workout planners, physiotherapy tools, and anatomy education.
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-19.2-61dafb)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-19.2.3-61dafb)](https://reactjs.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ## ✨ Features
