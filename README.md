@@ -19,6 +19,13 @@ An interactive, lightweight React component library for visualizing and selectin
 
 ---
 
+## Demo
+
+![Demo_click](./screenshots/demo1.gif)
+![Demo_programmatic](./screenshots/demo2.gif)
+
+---
+
 ## 📦 Installation
 
 ```bash
@@ -374,26 +381,26 @@ stateDiagram-v2
 
 ---
 
-## 🗂️ Available Muscles
+## 🗂️ Available Muscle Groups
 
 ### Arms
 
-- `RightBicep` / `LeftBicep`
-- `RightForearm` / `LeftForearm`
-- `RightShoulder` / `LeftShoulder`
+- `Biceps`
+- `Forearms`
+- `Shoulders`
 
 ### Torso
 
 - `Chest`
 - `AbsUpper`
 - `AbsLower`
-- `RightAbsObliques` / `LeftAbsObliques`
+- `AbsObliques`
 
 ### Legs
 
-- `RightQuad` / `LeftQuad`
-- `RightCalf` / `LeftCalf`
-- `RightAdductor` / `LeftAdductor`
+- `Quads`
+- `Calfs`
+- `Adductors`
 
 ---
 
